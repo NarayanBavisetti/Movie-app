@@ -14,10 +14,10 @@ const UserSchema = mongoose.Schema({
         type:String,
         require:true,
     },
-    favourites: [{
-        type: ObjectId,
-         ref: "User" 
-       }],
+    // favourites: [{
+    //     type: ObjectId,
+    //      ref: "User" 
+    //    }],
 })
 const user = mongoose.model("User" , UserSchema);
 module.exports = user;
