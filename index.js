@@ -17,9 +17,9 @@ app.use(cookieParser());
 const authRoute = require("./routes/auth")
 app.use(authRoute);
 
-app.get("/",(req,res) => {
-    res.send("HI bruh");
-})
+// app.get("/",(req,res) => {
+//     res.send("HI bruh");
+// })
 
 if ( process.env.NODE_ENV === "production"){
     app.use(express.static("frontend/build"));
