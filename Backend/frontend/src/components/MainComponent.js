@@ -11,7 +11,6 @@ export default function Main() {
       <div>
 
     <Router>
-            <Header />
       <Route exact path="/" component={MovieList} />
       <Route exact path="/favourite" component={Favourite} />
       <Route exact path="/login" component={Login} />

@@ -13,7 +13,11 @@ const UserSchema = mongoose.Schema({
     passwordHash:{
         type:String,
         require:true,
-    }
+    },
+    favourites: [{
+        type: ObjectId,
+         ref: "User" 
+       }],
 })
 const user = mongoose.model("User" , UserSchema);
 module.exports = user;
