@@ -43,7 +43,6 @@ const history = useHistory();
       <MovieListHeader search={search} setSearch={setSearch} />
       <div className="container">
         {Movie.map((item, index) => {
-          console.log(item)
           return (
             <div className="movie">
               <Link to={`/movie/${item.imdbID}`}>
@@ -51,7 +50,7 @@ const history = useHistory();
               </Link>
               <div className="movie-info">
                 <h6>{item.Title}</h6>
-                {/* <ToggleButton
+                <ToggleButton
         className="mb-2"
         id="toggle-check"
         type="checkbox"
@@ -62,7 +61,7 @@ const history = useHistory();
         onChange={(e) => setChecked(e.currentTarget.checked)}
       >
         Checked
-      </ToggleButton> */}
+      </ToggleButton>
      {/* {favourites.includes(i) ? 
      <IoIosHeart onClick={(item,i) => addFavourite(item,i)} style={{color:'red'}}> </IoIosHeart>
     :

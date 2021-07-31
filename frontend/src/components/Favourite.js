@@ -9,21 +9,10 @@ export default function Favourite() {
   const callHomePage = async () => {
       
     try {
-        // const res = await fetch('/favourite',{
-        //     method:"GET",
-        //     headers:{
-        //         Accept:"application/json",
-        //         "Content-Type":"application/json"
-        //     },
-        //     credentials:"include"
-        // })
        const res = await axios.get("/favourite");
       console.log(res)
       const data = await res.json();
       console.log(data);
-    //   if (!res.status === 200) {
-    //     history.push("/login");
-    //   }
     } catch (e) {
         history.push("/login");
         console.log(e)
