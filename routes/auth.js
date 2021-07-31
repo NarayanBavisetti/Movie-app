@@ -3,6 +3,7 @@ const user = require("../models/userSchema");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { isLoggedIn } = require("../middleware");
 
 router.post("/register", async (req, res) => {
   try {
@@ -58,6 +59,7 @@ router.post("/login", async (req, res) => {
     },
     process.env.JWT_SECRET
   );
+  // res.json({token});
   res.cookie("token", token, {
     httpOnly: true,
     secure: true,
@@ -76,8 +78,7 @@ router.post("/logout" , (req,res) => {
       res.send("Logged out successfully");
 })
 
-router.post("/favourite",(req,res) => {
-  
+router.get("/favourite",isLoggedIn,(req,res) =>{
+  res.send(req.rootUser);
 })
-
 module.exports = router;

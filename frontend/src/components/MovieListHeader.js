@@ -39,15 +39,6 @@ const MovieListHeader = (props) => {
               </Nav.Link>
             </Nav>
             <Nav >
-              {/* <InputGroup>
-                <FormControl
-                  onChange={(e) => props.setSearch(e.target.value)}
-                  value={props.value}
-                  placeholder="Search"
-                  aria-label="Search"
-                  aria-describedby="basic-addon1"
-                />
-              </InputGroup> */}
               <Form className="d-flex">
       <FormControl
         type="search"
@@ -57,7 +48,6 @@ const MovieListHeader = (props) => {
         className="mr-2"
         aria-label="Search"
       />
-      {/* <Button variant="outline-success">Search</Button> */}
      
     </Form>
               {/* {user ?  */}
