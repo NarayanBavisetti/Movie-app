@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import Header from "./Header";
 import "./signup.css";
+import UserContext from "../context/userContext";
 
 export default function Login() {
+
+  const currentUser = useContext(UserContext);
+const{getLoggedIn} = currentUser;
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory("");
@@ -17,6 +22,7 @@ export default function Login() {
     };
 
     await axios.post("/login", data);
+    getLoggedIn();
     history.push("/");
     // console.log(data);
   };

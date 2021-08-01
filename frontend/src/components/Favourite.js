@@ -5,24 +5,24 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 
 export default function Favourite() {
-    const history = useHistory();
-  const callHomePage = async () => {
+  //   const history = useHistory();
+  // const callHomePage = async () => {
       
-    try {
-       const res = await axios.get("/favourite");
-      console.log(res)
-      const data = await res.json();
-      console.log(data);
-    } catch (e) {
-        history.push("/login");
-        console.log(e)
-    }
-  };
-  useEffect(() => {
-    callHomePage();
+  //   try {
+  //      const res = await axios.get("/favourite");
+  //     console.log(res)
+  //     const data = await res.json();
+  //     console.log(data);
+  //   } catch (e) {
+  //       history.push("/login");
+  //       console.log(e)
+  //   }
+  // };
+  // useEffect(() => {
+  //   callHomePage();
 
-    // axios.post('/favourite')
-  }, []);
+  //   // axios.post('/favourite')
+  // }, []);
   return (
     <div>
       <Header />

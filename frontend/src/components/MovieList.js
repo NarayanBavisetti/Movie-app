@@ -4,7 +4,6 @@ import axios from "axios";
 import "./MovieList.css";
 import Header from "./Header";
 import {ToggleButton} from 'react-bootstrap'
-import MovieListHeader from "./MovieListHeader";
 import {Link, useHistory }from 'react-router-dom'
 export default function MovieList() {
   const [Movie, setMovie] = useState([]);
@@ -40,7 +39,7 @@ const history = useHistory();
   
   return (
     <div>
-      <MovieListHeader search={search} setSearch={setSearch} />
+      <Header search={search} setSearch={setSearch} />
       <div className="container">
         {Movie.map((item, index) => {
           return (

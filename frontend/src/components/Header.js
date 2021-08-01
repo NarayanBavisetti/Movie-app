@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Navbar,
   Container,
@@ -7,16 +7,26 @@ import {
   InputGroup,
   FormControl,
   NavLink,
+  Form,
 } from "react-bootstrap";
 
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import "./Header.css";
+import UserContext from "../context/userContext";
 
 const Header = (props) => {
+  const currentUser = useContext(UserContext);
+  const { isLoggedIn, getLoggedIn } = currentUser;
+
+  console.log(currentUser);
+  const path = window.location.pathname;
+
   const history = useHistory();
   const logoutHandler = async () => {
-    await axios.post("/logout");
+    await axios.get("/logout");
+    getLoggedIn();
+    console.log(getLoggedIn);
     history.push("/login");
   };
   return (
@@ -29,7 +39,12 @@ const Header = (props) => {
         variant="dark"
       >
         <Container>
-          <Navbar.Brand ><Link className="nav-brand" to="/"  style={{ color: '#FFF' }} > Movie-app</Link></Navbar.Brand>
+          <Navbar.Brand>
+            <Link className="nav-brand" to="/" style={{ color: "#FFF" }}>
+              {" "}
+              Movie-app
+            </Link>
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
@@ -39,23 +54,38 @@ const Header = (props) => {
                 </Link>
               </Nav.Link>
             </Nav>
+
+            {path == "/" ? (
+              <Form className="d-flex">
+                <FormControl
+                  type="search"
+                  onChange={(e) => props.setSearch(e.target.value)}
+                  value={props.value}
+                  placeholder="Search"
+                  className="mr-2"
+                  aria-label="Search"
+                />
+              </Form>
+            ) : null}
             <Nav>
-              {/* {user ?  */}
-              <Nav.Link>
-                <Button onClick={logoutHandler}>Logout</Button>
-              </Nav.Link>
-              {/* : */}
-              <Nav.Link>
-                <Link className="nav-link" to="/login">
-                  Login
-                </Link>
-              </Nav.Link>
-              <Nav.Link>
-                <Link className="nav-link" to="/register">
-                  Sign Up
-                </Link>
-              </Nav.Link>
-              {/* } */}
+              {isLoggedIn ? (
+                <Nav.Link>
+                  <Button onClick={logoutHandler}>Logout</Button>
+                </Nav.Link>
+              ) : (
+                <>
+                  <Nav.Link>
+                    <Link className="nav-link" to="/login">
+                      Login
+                    </Link>
+                  </Nav.Link>
+                  <Nav.Link>
+                    <Link className="nav-link" to="/register">
+                      Sign Up
+                    </Link>
+                  </Nav.Link>
+                </>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

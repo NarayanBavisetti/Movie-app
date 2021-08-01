@@ -68,17 +68,27 @@ router.post("/login", async (req, res) => {
   res.send("User logged In");
 });
 
-router.post("/logout" , (req,res) => {
-    res.cookie("token", " ", {
-        httpOnly: true,
-        expires:new Date(0),
-        secure: true,
-        sameSite: "none",
-      });
-      res.send("Logged out successfully");
+router.get("/logout", (req, res) => {
+  res.cookie("token", " ", {
+    httpOnly: true,
+    expires: new Date(0),
+    secure: true,
+    sameSite: "none",
+  });
+  res.send("Logged out successfully");
+});
+
+
+router.get("/loggedIn",(req,res) => {
+  try{
+    const token = req.cookies.token;
+    if(!token) return res.status(200).json(false)
+    jwt.verify(token,process.env.JWT_SECRET);
+    res.send(true)
+  }catch(err){
+    console.log(err);
+    res.status(200).json(false);
+  }
 })
 
-router.get("/favourite",isLoggedIn,(req,res) =>{
-  res.send(req.rootUser);
-})
 module.exports = router;
