@@ -1,20 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { IoIosHeart,IoIosHeartEmpty } from "react-icons/io";
+import React, { useContext, useEffect, useState } from "react";
+import { IoIosHeart, IoIosHeartEmpty } from "react-icons/io";
 import axios from "axios";
 import "./MovieList.css";
 import Header from "./Header";
-import {ToggleButton} from 'react-bootstrap'
-import {Link, useHistory }from 'react-router-dom'
+import { ToggleButton } from "react-bootstrap";
+import { Link, useHistory } from "react-router-dom";
+import UserContext from "../context/userContext";
+
+
+
 export default function MovieList() {
+
   const [Movie, setMovie] = useState([]);
   const [search, setSearch] = useState("avengers");
-  const [favourites, setFavourites] = useState([]);
+  // const [favourites, setFavourites] = useState([]);
   const [checked, setChecked] = useState(false);
-const history = useHistory();
-  const getMovie = async (search) => {
+  const currentUser = useContext(UserContext);
 
-//    const url =  axios.get("https://www.omdbapi.com/?s=avengers&apikey=8717385c")
-    const url = `https://www.omdbapi.com/?s=${search}&apikey=8717385c`;
+  const history = useHistory();
+  const getMovie = async (search) => {
+ 
+      //  const url =  axios.get("https://www.omdbapi.com/?s=avengers&apikey=8717385c")
+    const url = `https://www.omdbapi.com/?s=${search}&apikey=${process.env.REACT_APP_API_KEY}`;
     const response = await fetch(url);
     const responseJson = await response.json();
     // console.log(responseJson);
@@ -22,21 +29,27 @@ const history = useHistory();
       setMovie(responseJson.Search);
     }
   };
-  useEffect( () => {
-
+  useEffect(() => {
     getMovie(search);
-    
-// axios.post('/favourite')
+    // addFavouriteHandle()
+    // axios.post('/favourite')
   }, [search]);
 
+  const { addFavourite } = currentUser;
+  // function addFavouriteHandle(Title) {
+  //   // const movie = {
+  //   //   Title
+  //   // }
+  //   addFavourite(Title);
+  // }
 
-  const addFavourite = (movie) => {
-    const newFavourite = [...favourites,movie];
-    setFavourites(newFavourite);
-    // addFavourite(favourites);
-    // axios.post("/favourite", favourites);
-  } 
-  
+  // const addFavourite = (movie) => {
+  //   const newFavourite = [...favourites,movie];
+  //   setFavourites(newFavourite);
+  //   // addFavourite(favourites);
+  //   // axios.post("/favourite", favourites);
+  // }
+
   return (
     <div>
       <Header search={search} setSearch={setSearch} />
@@ -45,11 +58,11 @@ const history = useHistory();
           return (
             <div className="movie">
               <Link to={`/movie/${item.imdbID}`}>
-              <img src={item.Poster} alt={item.Title} />
+                <img src={item.Poster} alt={item.Title} />
               </Link>
               <div className="movie-info">
                 <h6>{item.Title}</h6>
-                <ToggleButton
+                {/* <ToggleButton
         className="mb-2"
         id="toggle-check"
         type="checkbox"
@@ -60,22 +73,19 @@ const history = useHistory();
         onChange={(e) => setChecked(e.currentTarget.checked)}
       >
         Checked
-      </ToggleButton>
-     {/* {favourites.includes(i) ? 
+      </ToggleButton> */}
+                {/* <button onClick={addFavouriteHandle(item.Title)}>Add to</button> */}
+                {/* {favourites.includes(i) ? 
      <IoIosHeart onClick={(item,i) => addFavourite(item,i)} style={{color:'red'}}> </IoIosHeart>
     :
     <IoIosHeartEmpty>
 
     </IoIosHeartEmpty>
     }  */}
-        
-       
-  
 
                 {/* <button onClick={() => addFavourite(item)}><i class="far fa-heart"></i></button> */}
-              {/* : null */}
+                {/* : null */}
               </div>
-              
             </div>
           );
         })}

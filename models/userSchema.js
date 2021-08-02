@@ -1,4 +1,3 @@
-const express = require('express')
 const mongoose = require('mongoose')
 const UserSchema = mongoose.Schema({
     username:{
@@ -14,22 +13,11 @@ const UserSchema = mongoose.Schema({
         type:String,
         require:true,
     },
-    favourites:[
+    favourite:[
         {
-            imdb:{
-                type:mongoose.Schema.Types.ObjectId
-            },
             Title:{
-                
+                type:String,
             }
-            // imdbID:{
-            //     type:String,
-            //     required:true
-            // },
-            // Title:{
-            // type:String,
-            // required:true
-            // }
         }
     ]
 })

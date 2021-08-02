@@ -29,6 +29,7 @@ const Header = (props) => {
     console.log(getLoggedIn);
     history.push("/login");
   };
+  
   return (
     <div>
       <Navbar
@@ -55,7 +56,7 @@ const Header = (props) => {
               </Nav.Link>
             </Nav>
 
-            {path == "/" ? (
+            {path === "/" ? (
               <Form className="d-flex">
                 <FormControl
                   type="search"

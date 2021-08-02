@@ -59,7 +59,7 @@ router.post("/login", async (req, res) => {
     },
     process.env.JWT_SECRET
   );
-  // res.json({token});
+
   res.cookie("token", token, {
     httpOnly: true,
     secure: true,
@@ -78,17 +78,43 @@ router.get("/logout", (req, res) => {
   res.send("Logged out successfully");
 });
 
-
-router.get("/loggedIn",(req,res) => {
-  try{
+router.get("/loggedIn", (req, res) => {
+  try {
     const token = req.cookies.token;
-    if(!token) return res.status(200).json(false)
-    jwt.verify(token,process.env.JWT_SECRET);
-    res.send(true)
-  }catch(err){
+    if (!token) return res.status(200).json(false);
+    jwt.verify(token, process.env.JWT_SECRET);
+    res.send(true);
+  } catch (err) {
     console.log(err);
     res.status(200).json(false);
   }
-})
+});
+
+//get items from cart
+router.get("/favourite", isLoggedIn, async (req, res) => {
+  try {
+    const userid = await req.user;
+    const User = await user.findById(userid).populate("favourite");
+    res.status(200).json(User.favourite);
+  } catch (e) {
+    console.log(e);
+    res.status(500).json();
+  }
+});
+
+//add items in the cart
+router.post("/favourite/add", isLoggedIn, async(req, res) => {
+  try {
+    const { Title } = req.body;
+    const userid = req.user;
+    const User = await user.findById(userid);
+    User.favourite.push(Title);
+    await User.save();
+    res.status(200).json("added to cart successfully");
+  } catch (e) {
+    console.log(e);
+    res.status(500).json();
+  }
+});
 
 module.exports = router;

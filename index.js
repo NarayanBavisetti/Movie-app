@@ -15,9 +15,8 @@ mongoose.connect(process.env.MONGODB_URL,{
 app.use(express.json());
 app.use(cookieParser());
 const authRoute = require("./routes/auth")
-const favRoute = require("./routes/favourite")
 app.use(authRoute);
-app.use(favRoute);
+
 
 
 if ( process.env.NODE_ENV === "production"){

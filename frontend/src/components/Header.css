@@ -1,4 +1,6 @@
-.nav-brand{
+body{
+    margin-top: 100px;
+}.nav-brand{
     text-decoration: none;
 }
 .navbar{
