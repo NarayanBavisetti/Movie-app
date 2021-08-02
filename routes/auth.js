@@ -96,6 +96,7 @@ router.get("/favourite", isLoggedIn, async (req, res) => {
     const userid = await req.user;
     const User = await user.findById(userid).populate("favourite");
     res.status(200).json(User.favourite);
+    // console.log(User.favourite)
   } catch (e) {
     console.log(e);
     res.status(500).json();
@@ -105,12 +106,35 @@ router.get("/favourite", isLoggedIn, async (req, res) => {
 //add items in the cart
 router.post("/favourite/add", isLoggedIn, async(req, res) => {
   try {
-    const { Title } = req.body;
+    const { imdbID,Title,Poster } = req.body;
     const userid = req.user;
     const User = await user.findById(userid);
-    User.favourite.push(Title);
+    const data ={
+      imdbID,
+      Title,
+      Poster
+    }
+    // console.log(data)
+    User.favourite.push(data);
     await User.save();
     res.status(200).json("added to cart successfully");
+  } catch (e) {
+    console.log(e);
+    res.status(500).json();
+  }
+});
+
+router.post("/favourite/remove", isLoggedIn, async(req, res) => {
+  try {
+    const { id } = req.body;
+  
+    // console.log(id);
+    const userid = req.user;
+    const User = await user.findById(userid);
+    
+    User.favourite.pull(req.body);
+    await User.save();
+    res.status(200).json("Remove from cart successfully");
   } catch (e) {
     console.log(e);
     res.status(500).json();

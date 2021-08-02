@@ -7,41 +7,42 @@ import { ToggleButton } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import UserContext from "../context/userContext";
 
-
-
 export default function MovieList() {
 
   const [Movie, setMovie] = useState([]);
   const [search, setSearch] = useState("avengers");
-  // const [favourites, setFavourites] = useState([]);
   const [checked, setChecked] = useState(false);
+
   const currentUser = useContext(UserContext);
+  const { isLoggedIn,favourite } = currentUser;
 
   const history = useHistory();
   const getMovie = async (search) => {
- 
-      //  const url =  axios.get("https://www.omdbapi.com/?s=avengers&apikey=8717385c")
+
     const url = `https://www.omdbapi.com/?s=${search}&apikey=${process.env.REACT_APP_API_KEY}`;
     const response = await fetch(url);
     const responseJson = await response.json();
-    // console.log(responseJson);
+ 
     if (responseJson.Search) {
       setMovie(responseJson.Search);
     }
   };
   useEffect(() => {
     getMovie(search);
-    // addFavouriteHandle()
-    // axios.post('/favourite')
+    addFavouriteHandle()
+    axios.post('/favourite')
   }, [search]);
 
   const { addFavourite } = currentUser;
-  // function addFavouriteHandle(Title) {
-  //   // const movie = {
-  //   //   Title
-  //   // }
-  //   addFavourite(Title);
-  // }
+  function addFavouriteHandle(Poster,imdbID,Title,) {
+    const movie = {
+         imdbID,
+         Title,
+         Poster
+    }
+    console.log(movie);
+    addFavourite(movie);
+  }
 
   // const addFavourite = (movie) => {
   //   const newFavourite = [...favourites,movie];
@@ -52,7 +53,7 @@ export default function MovieList() {
 
   return (
     <div>
-      <Header search={search} setSearch={setSearch} />
+      <Header search={search} setSearch={setSearch}  favouriteLen={favourite.length} />
       <div className="container">
         {Movie.map((item, index) => {
           return (
@@ -74,7 +75,11 @@ export default function MovieList() {
       >
         Checked
       </ToggleButton> */}
-                {/* <button onClick={addFavouriteHandle(item.Title)}>Add to</button> */}
+                {isLoggedIn === true ? (
+                  <button onClick={() => addFavouriteHandle(item.Poster,item.imdbID,item.Title)}>
+                    Add to
+                  </button>
+                ) : null}
                 {/* {favourites.includes(i) ? 
      <IoIosHeart onClick={(item,i) => addFavourite(item,i)} style={{color:'red'}}> </IoIosHeart>
     :

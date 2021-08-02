@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {  Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import UserContext from "../context/userContext";
 import Header from "./Header";
 import "./Movie.css";
 
 export default function Movie() {
+
+  const currentUser = useContext(UserContext);
+
+  const {favourite} = currentUser;
   const { id } = useParams();
   const [Movie, setMovie] = useState("");
 
@@ -23,7 +28,7 @@ export default function Movie() {
 
   return (
     <div>
-      <Header />
+      <Header favouriteLen={favourite.length} />
       <div className="app">
         <div className="details">
           <div className="big-img">

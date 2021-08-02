@@ -1,0 +1,13 @@
+.link{
+    text-decoration: none;
+    color: aliceblue;
+}
+.link:hover{
+    color: aliceblue;
+
+}
+.table{
+    margin-left: auto;
+    margin-right: auto;
+
+}

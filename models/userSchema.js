@@ -15,7 +15,13 @@ const UserSchema = mongoose.Schema({
     },
     favourite:[
         {
+            imdbID:{
+                type:String,
+            },
             Title:{
+                type:String,
+            },
+            Poster:{
                 type:String,
             }
         }

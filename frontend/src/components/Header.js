@@ -51,7 +51,11 @@ const Header = (props) => {
             <Nav className="me-auto">
               <Nav.Link>
                 <Link className="nav-link" to="/favourite">
-                  Favourite
+                  Favourite{" "}
+                  {props.favouriteLen !== 0 ? <>
+                   ({props.favouriteLen})
+                   </>
+                   :null}
                 </Link>
               </Nav.Link>
             </Nav>

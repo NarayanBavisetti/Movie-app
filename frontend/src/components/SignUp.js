@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import "./signup.css";
 import Header from "./Header";
+import UserContext from "../context/userContext";
 
 export default function SignUp() {
+
+  const currentUser = useContext(UserContext);
+  const{favourite} = currentUser;
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,7 +32,7 @@ export default function SignUp() {
 
   return (
     <div>
-      <Header />
+      <Header favouriteLen={favourite.length}/>
       <div className="row mt-5">
         <div className="col-md-6 m-auto">
           <div className="card ">

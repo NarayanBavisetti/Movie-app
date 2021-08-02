@@ -8,7 +8,7 @@ import UserContext from "../context/userContext";
 export default function Login() {
 
   const currentUser = useContext(UserContext);
-const{getLoggedIn} = currentUser;
+const{getLoggedIn,favourite} = currentUser;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,7 +28,7 @@ const{getLoggedIn} = currentUser;
   };
   return (
     <div>
-      <Header />
+      <Header favouriteLen={favourite.length}/>
 
       <div className="row mt-5">
         <div className="col-md-6 m-auto">

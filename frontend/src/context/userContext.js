@@ -24,13 +24,15 @@ export function UserContextProvider(props) {
       getFavourite();
     }
   },[isLoggedIn]);
-  async function addFavourite(Title) {
+  async function addFavourite(movie) {
     try {
+      if(movie.imdbID !== undefined){
       setFavourite((prevFav) => {
-        return prevFav.concat(Title);
+        return prevFav.concat(movie);
       });
-      await axios.post("/favourite/add", { Title });
+      await axios.post("/favourite/add", { imdbID:movie.imdbID ,Title:movie.Title,Poster:movie.Poster});
       console.log("product added sucessfully");
+    }
     } catch (e) {
       console.log(e);
     }
