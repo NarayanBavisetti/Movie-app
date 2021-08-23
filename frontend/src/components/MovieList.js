@@ -6,40 +6,46 @@ import Header from "./Header";
 import { ToggleButton } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import UserContext from "../context/userContext";
+import Aos from "aos"
+import "aos/dist/aos.css"
 
 export default function MovieList() {
+
+  useEffect(() => {
+    Aos.init({duration :2000});
+  },[])
 
   const [Movie, setMovie] = useState([]);
   const [search, setSearch] = useState("avengers");
   const [checked, setChecked] = useState(false);
 
   const currentUser = useContext(UserContext);
-  const { isLoggedIn,favourite } = currentUser;
+  const { isLoggedIn, favourite } = currentUser;
 
   const history = useHistory();
   const getMovie = async (search) => {
-
     const url = `https://www.omdbapi.com/?s=${search}&apikey=${process.env.REACT_APP_API_KEY}`;
     const response = await fetch(url);
     const responseJson = await response.json();
- 
+
     if (responseJson.Search) {
       setMovie(responseJson.Search);
     }
   };
   useEffect(() => {
     getMovie(search);
-    addFavouriteHandle()
-    axios.post('/favourite')
+    addFavouriteHandle();
+    axios.post("/favourite");
   }, [search]);
 
   const { addFavourite } = currentUser;
-  function addFavouriteHandle(Poster,imdbID,Title,) {
+  function addFavouriteHandle(Poster, imdbID, Title, id) {
     const movie = {
-         imdbID,
-         Title,
-         Poster
-    }
+      id,
+      imdbID,
+      Title,
+      Poster,
+    };
     console.log(movie);
     addFavourite(movie);
   }
@@ -53,17 +59,26 @@ export default function MovieList() {
 
   return (
     <div>
-      <Header search={search} setSearch={setSearch}  favouriteLen={favourite.length} />
+      <Header
+        search={search}
+        setSearch={setSearch}
+        favouriteLen={favourite.length}
+      />
       <div className="container">
-        {Movie.map((item, index) => {
+        {/* {favourite.map((val) => {
           return (
-            <div className="movie">
-              <Link to={`/movie/${item.imdbID}`}>
-                <img src={item.Poster} alt={item.Title} />
-              </Link>
-              <div className="movie-info">
-                <h6>{item.Title}</h6>
-                {/* <ToggleButton
+            <> */}
+            {console.log(favourite)}
+              {Movie.map((item, index) => {
+                console.log(item)
+                return (
+                  <div data-aos="fade-up" className="movie">
+                    <Link to={`/movie/${item.imdbID}`}>
+                      <img src={item.Poster} alt={item.Title} />
+                    </Link>
+                    <div className="movie-info">
+                      <h6>{item.Title}</h6>
+                      {/* <ToggleButton
         className="mb-2"
         id="toggle-check"
         type="checkbox"
@@ -75,12 +90,33 @@ export default function MovieList() {
       >
         Checked
       </ToggleButton> */}
-                {isLoggedIn === true ? (
-                  <button onClick={() => addFavouriteHandle(item.Poster,item.imdbID,item.Title)}>
-                    Add to
-                  </button>
-                ) : null}
-                {/* {favourites.includes(i) ? 
+                      {/* {isLoggedIn === true ? (
+                  <>
+                    {console.log(item._id)}
+                    <button
+                      onClick={() =>
+                        addFavouriteHandle(
+                          item.Poster,
+                          item.imdbID,
+                          item.Title,
+                          item._id
+                        )
+                      }
+                    >
+                      Add to
+                    </button>
+                  </>
+                ) : null} */}
+
+                      {console.log(favourite.imdbID)}
+                      {console.log(item.imdbID)}
+                      {favourite.imdbID == item.imdbID ? (
+                        <button>hi</button>
+                      ) : (
+                        <button>no</button>
+                      )}
+
+                      {/* {favourites.includes(i) ? 
      <IoIosHeart onClick={(item,i) => addFavourite(item,i)} style={{color:'red'}}> </IoIosHeart>
     :
     <IoIosHeartEmpty>
@@ -88,12 +124,15 @@ export default function MovieList() {
     </IoIosHeartEmpty>
     }  */}
 
-                {/* <button onClick={() => addFavourite(item)}><i class="far fa-heart"></i></button> */}
-                {/* : null */}
-              </div>
-            </div>
+                      {/* <button onClick={() => addFavourite(item)}><i class="far fa-heart"></i></button> */}
+                      {/* : null */}
+                    </div>
+                  </div>
+                );
+              })}
+            {/* </>
           );
-        })}
+        })} */}
       </div>
     </div>
   );

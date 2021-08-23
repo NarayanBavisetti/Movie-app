@@ -127,17 +127,14 @@ router.post("/favourite/add", isLoggedIn, async(req, res) => {
 router.post("/favourite/remove", isLoggedIn, async(req, res) => {
   try {
     const { id } = req.body;
-  
-    // console.log(id);
+    //  console.log(req.body);
     const userid = req.user;
-    const User = await user.findById(userid);
-    
-    User.favourite.pull(req.body);
-    await User.save();
-    res.status(200).json("Remove from cart successfully");
+    // console.log(userid);
+    await user.findByIdAndUpdate(userid,{$pull:{favourite:id}})
+    res.status(200).json("Removed from cart successfully");
   } catch (e) {
     console.log(e);
-    res.status(500).json();
+    res.status(500).send("cannot remove from cart");
   }
 });
 

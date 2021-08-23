@@ -24,6 +24,14 @@ export function UserContextProvider(props) {
       getFavourite();
     }
   },[isLoggedIn]);
+
+  async function removeFavourite(id){
+    setFavourite((prevFav => {
+      console.log(prevFav);
+           return prevFav.filter((movie) => movie._id !== id);
+    }))
+     await axios.post("/favourite/remove", {id});
+  }
   async function addFavourite(movie) {
     try {
       if(movie.imdbID !== undefined){
@@ -42,6 +50,7 @@ export function UserContextProvider(props) {
     getLoggedIn: getLoggedIn,
     favourite: favourite,
     addFavourite: addFavourite,
+    removeFavourite:removeFavourite
   };
 
   return (

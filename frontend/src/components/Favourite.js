@@ -5,10 +5,19 @@ import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import UserContext from "../context/userContext";
 import "./Favourite.css";
+import Aos from "aos"
+import "aos/dist/aos.css"
 
+
+
+ 
 export default function Favourite() {
+  useEffect(() => {
+    Aos.init({duration :2000});
+  },[])
+
   const currentUser = useContext(UserContext);
-  const { favourite } = currentUser;
+  const { favourite,removeFavourite } = currentUser;
   const [cart, setCart] = useState([]);
   const [movie, setMovie] = useState("");
   const history = useHistory();
@@ -27,8 +36,9 @@ export default function Favourite() {
   };
 
   async function removeFav(id) {
-    await axios.post("/favourite/remove", id);
-    await axios.get("/favourite");
+    removeFavourite(id)
+    
+    // await axios.get("/favourite");
     // res.send()
   }
   useEffect(() => {
@@ -51,7 +61,7 @@ export default function Favourite() {
         </thead>
         {cart.map((item, index) => {
           return (
-            <tbody>
+            <tbody data-aos="fade-up">
               <tr>
                 <td>{index + 1}</td>
 
