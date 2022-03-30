@@ -18,7 +18,7 @@ export default function Movie() {
   }, [id]);
   const getMovie = async () => {
     console.log(id);
-    const url = `https://www.omdbapi.com/?i=${id}&apikey=${process.env.REACT_APP_API_KEY}`;
+    const url = `https://www.omdbapi.com/?i=${id}&apikey=8717385c`;
     const response = await fetch(url);
     const responseJson = await response.json();
     if (responseJson) {
