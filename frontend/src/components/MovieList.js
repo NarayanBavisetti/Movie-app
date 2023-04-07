@@ -24,7 +24,7 @@ export default function MovieList() {
 
   const history = useHistory();
   const getMovie = async (search) => {
-    const url = `https://www.omdbapi.com/?s=${search}&apikey=${process.env.REACT_APP_API_KEY}`;
+    const url = `https://www.omdbapi.com/?s=${search}&apikey=8717385c`;
     const response = await fetch(url);
     const responseJson = await response.json();
 
